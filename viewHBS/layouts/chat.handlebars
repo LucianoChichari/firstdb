@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Aplicación con Sockets</title>
+    <script src="./socket.io/socket.io.js"></script>
+    <style>
+        #app_chat.active .michat, #app_chat>div:first-of-type{
+            display: block;
+        }
+        #app_chat.active>div:first-of-type, #app_chat .michat{
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="app_chat" class="">
+            <div>
+                <form id="form_data_user">
+                    <div>
+                        <input id="name_user" type="text" placeholder="Ingresa tu nombre">
+                        <input id="email_user" type="text" placeholder="Ingresa tu correo">
+                        <input style="background-color: #4CAF50; /* Green */
+                            border: none;
+                            color: white;
+                            padding: 15px 32px;
+                            text-align: center;
+                            text-decoration: none;
+                            display: inline-block;
+                            font-size: 16px;
+                            cursor: pointer;
+                        " type="submit" value="Ingresar al chat">
+                    </div>
+                </form>
+            </div>
+            <div class="michat">
+                <h1>Chat entre todos (Porq lo hicimos entre todos)</h1>
+                <div>
+                    <input id="inputtext" type="text" placeholder="Escribe aquí tu texto">
+                    <button style="background: #9FE19A;
+                        padding: 5px;
+                        display: inline-block;
+                        outline: 0;
+                        border: 0;
+                        margin: 5px;
+                        border-radius: 2px;
+                        text-transform: uppercase;
+                        letter-spacing: 1px;
+                        color: white;
+                        cursor: pointer;" id="mibtn">Enviar</button>
+                    <p style="background-color: #e3e2e2;
+                        padding: 20px 30px;
+                        width: 100%;
+                        max-width: 500px;" id="contenedor"></p>
+            </div>
+            <!-- <form onsubmit=""></form>
+            <input id="inputtext" type="text" placeholder="Escribe aquí tu texto"> -->
+        </div>
+    </div>
+
+
+
+    
+    <script>
+        let student = null;
+        let socket = null;
+        let chat_container = document.getElementById("app_chat");
+        let input = document.getElementById("inputtext");
+        let btn = document.getElementById("mibtn");
+        let p = document.getElementById("contenedor");
+        const form_data_user = document.getElementById('form_data_user');
+        form_data_user.addEventListener("submit", e=>{
+            e.preventDefault();
+            student = {
+                name: e.target[0].value,
+                email: e.target[1].value
+            }            
+            if(student.name == "" || student.email == ""){
+                window.location.reload();
+            }
+            socket = io();
+            socket.emit("addUser", student);
+            chat_container.classList = "active";
+            readSocket();
+        })
+        function readSocket(){
+            loadChat();
+            // console.log(this);
+            socket.on("fillIntoP", data =>{
+                console.log(data);
+                if(student){
+                    if(data.length > 0){
+                        let parrafo = ``
+                        data.forEach(element => {
+                            parrafo += `<b>${element.name} : </b> ${element.mensaje} <br>`;
+                        });
+                        p.innerHTML = parrafo;
+                    }
+                }
+            })
+        }
+        function loadChat(){
+            socket.on("init", data =>{
+                if(data.length > 0){
+                    let parrafo = ``
+                    data.forEach(element => {
+                        parrafo += `<b>${element.name} : </b> ${element.mensaje} <br>`;
+                    });
+                    p.innerHTML = parrafo;
+                }
+            
+            });
+            socket.on("loadUsers", data =>{
+                console.log("loadUsers ------------->");
+                console.log(data);
+                
+            
+            });
+        }
+        // let student_name = null;
+        // const socket = io();
+        
+        btn.addEventListener("click", data =>{
+            if(student){
+                let sendData = {
+                    ...student,
+                    mensaje: input.value
+                }
+                // console.log(sendData)
+                socket.emit("input", sendData);
+            }
+            
+        })
+        
+        
+        
+        // socket.emit("notificacion", "No somos bots!");
+    </script>
+</body>
+
+</html>

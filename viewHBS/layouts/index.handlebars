@@ -1,0 +1,81 @@
+<form class="container m-auto text-center" action="http://localhost:8080/productosHBS" method="POST" enctype="application/x-www-form-urlencoded">
+        <div class="mb-3">
+        <label for="Title" class="form-label">Title</label>
+        <input type="text" name="title" class="form-control" id="Title"  aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+            <label for="Price" class="form-label">Price</label>
+            <input type="text" name="price" class="form-control" id="Price" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+            <label for="Thumbnail" class="form-label">Thumbnail</label>
+            <input type="text" name="thumbnail" class="form-control" id="Thumbnail" aria-describedby="emailHelp">
+        </div>
+
+<button type="submit" class="btn btn-primary">Submit</button>
+
+</form>
+
+<thead class="thead-dark">
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Title</th>
+        <th scope="col">Price</th>
+        <th scope="col">Thumbnail</th>
+      </tr>
+    </thead>
+    {{#each response}}
+
+
+          <th scope="row">{{this.id}}</th>
+          <td> {{this.title}} </td>
+          <td> {{this.price}} </td>
+          <td>{{this.thumbnail}}</td>
+          <td><br><td>
+          {{/each}}
+
+
+            <div class="container">
+        <div id="app_chat" class="">
+            <div>
+                <form id="form_data_user">
+                    <div>
+                        <input id="name_user" type="text" placeholder="Ingresa tu nombre">
+                        <input id="email_user" type="text" placeholder="Ingresa tu correo">
+                        <input style="background-color: #4CAF50; /* Green */
+                            border: none;
+                            color: white;
+                            padding: 15px 32px;
+                            text-align: center;
+                            text-decoration: none;
+                            display: inline-block;
+                            font-size: 16px;
+                            cursor: pointer;
+                        " type="submit" value="Ingresar al chat">
+                    </div>
+                </form>
+            </div>
+            <div class="michat">
+                <h1>Chat entre todos (Porq lo hicimos entre todos)</h1>
+                <div>
+                    <input id="inputtext" type="text" placeholder="Escribe aquí tu texto">
+                    <button style="background: #9FE19A;
+                        padding: 5px;
+                        display: inline-block;
+                        outline: 0;
+                        border: 0;
+                        margin: 5px;
+                        border-radius: 2px;
+                        text-transform: uppercase;
+                        letter-spacing: 1px;
+                        color: white;
+                        cursor: pointer;" id="mibtn">Enviar</button>
+                    <p style="background-color: #e3e2e2;
+                        padding: 20px 30px;
+                        width: 100%;
+                        max-width: 500px;" id="contenedor"></p>
+            </div>
+            <!-- <form onsubmit=""></form>
+            <input id="inputtext" type="text" placeholder="Escribe aquí tu texto"> -->
+        </div>
+    </div>
