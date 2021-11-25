@@ -7,10 +7,10 @@ class Contenedor {
 
     async getAll() {
         try {
-            let respuesta = await db.from('productos')
+            let respuesta = await db.from(process.env.T_NAME_PRODUCTS)
             return respuesta
         } catch (error) {
-            console.log(error)
+            await this.crearTablaProductos();
         }
     }
     async getProdById(e) {
@@ -22,6 +22,21 @@ class Contenedor {
         }
     }
 
+    async crearTablaProductos (productos){
+    
+        try{
+    
+        await db.schema.createTable(process.env.T_NAME_PRODUCTS, table=>{
+            
+            table.increments('id').primary(),
+            table.string('name')
+            table.string('price'),
+            table.string('thumbnail')
+        })
+        } catch(error){
+        console.log('error al crear tabla ' + error)
+        }
+    }
 
     async  newProd(obj){
         try {

@@ -7,16 +7,16 @@ let db = db_obj.client;
 let Sockets = require("./utils/sockets")
 const { Server: HttpServer } = require('http');
 
-(async()=>{
-    try {
+// (async()=>{
+//     try {
         
-        let respuesta = await db.from('productos')
-        console.log(respuesta)
+//         let respuesta = await db.from(process.env.T_NAME_PRODUCTS)
+//         console.log(respuesta)
 
-    } catch (error) {
-        console.log("ERROR EN ASYNC TRY-CATCH",error)
-    }
-})();
+//     } catch (error) {
+//         console.log("ERROR EN ASYNC TRY-CATCH",error)
+//     }
+// })();
 
 // Initializations
 const app = express();
